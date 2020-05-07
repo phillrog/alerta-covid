@@ -79,6 +79,8 @@ target 'AlertaCorona' do
 
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'AlertaCoronaTests' do
     inherit! :complete
     # Pods for testing
