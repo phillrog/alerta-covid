@@ -1,14 +1,17 @@
 import React from 'react';
 import { api } from '../services/api';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, AppRegistry } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 class Main extends React.Component {
     componentDidMount() {
-        this.loadCases();
+       // this.loadCases();
     }
 
     loadCases = async () => {
-        const response = await api.tracker.get(`/cities/São Paulo`);
+        const response = await api.tracker.get(`/cities/São Paulo`).then((result) =>{
+            return result.data;
+        }).then((error) => console.log(error));
 
         const {confirmed, dead, latitude, longitude, location, updated } = response.data;
 
@@ -19,7 +22,17 @@ class Main extends React.Component {
     
         return (
           <View style={styles.container}>
-              <Text>TESTE</Text>
+              <MapView
+                provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                style={styles.map}
+                initialRegion={{
+                  latitude: -23.5505199,
+                  longitude: -46.63330939999999,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                }}
+              >
+              </MapView>
               </View>
         )
     }
@@ -27,12 +40,22 @@ class Main extends React.Component {
 
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#fafafa'
-    },
+  container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
     text: {
       color: '#101010',
       fontSize: 24,
